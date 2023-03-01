@@ -14,25 +14,17 @@ export class EventsController extends BaseController {
       .delete('/:eventId', this.cancelEvent)
   }
 
-  async editEvent(req, res, next) {
+  async createEvent(req, res, next) {
     try {
-      const eventId = req.params.eventId
       const eventData = req.body
-      const editEvent = await eventsService.editEvent(eventId, eventData)
-      return res.send(editEvent)
-    } catch (error) {
-      next(error)
-    }
-  }
-  async getEventById(req, res, next) {
-    try {
-      const eventId = req.params.eventId
-      const event = await eventsService.getEventById(eventId)
+      eventData.creatorId = req.userInfo.id
+      const event = await eventsService.createEvent(eventData)
       return res.send(event)
     } catch (error) {
       next(error)
     }
   }
+
   async getAllEvents(req, res, next) {
     try {
       const eventId = req.params.eventId
@@ -43,12 +35,22 @@ export class EventsController extends BaseController {
     }
   }
 
-  async createEvent(req, res, next) {
+  async getEventById(req, res, next) {
     try {
-      const eventData = req.body
-      eventData.creatorId = req.userInfo.id
-      const event = await eventsService.createEvent(eventData)
+      const eventId = req.params.eventId
+      const event = await eventsService.getEventById(eventId)
       return res.send(event)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editEvent(req, res, next) {
+    try {
+      const eventId = req.params.eventId
+      const eventData = req.body
+      const editEvent = await eventsService.editEvent(eventId, eventData)
+      return res.send(editEvent)
     } catch (error) {
       next(error)
     }
