@@ -13,3 +13,10 @@ export const EventSchema = new Schema({
   creatorId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
 
 }, defaultSchemaOptions)
+
+EventSchema.virtual('creator', {
+  ref: 'Account',
+  localField: 'creatorId',
+  foreignField: '_id',
+  justOne: true
+})
