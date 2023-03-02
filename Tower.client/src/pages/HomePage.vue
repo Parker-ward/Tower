@@ -9,20 +9,12 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid">
-    <div class="row">
 
-      <div v-for="e in events" :key="e.id" class="col-md-3">
-        <EventCard :event="e" />
-      </div>
-
-    </div>
-  </div>
   <!-- NOTE Filter my catagory -->
-  <!-- <div class="container">
+  <div class="container">
     <div class="row my-4">
       <div class="col-12 p-4 mb-3">
-        <h1 class="text-light">Albums</h1>
+        <h1 class="text-dark">Events</h1>
       </div>
       <div class="col-10 m-auto">
         <div class="bg-primary rounded p-3 d-flex justify-content-around">
@@ -32,11 +24,18 @@
           <button @click="changeFilterCategory('Misc')" class="btn btn-outline-light">Misc</button>
         </div>
       </div>
-      <div class="col-md-3" v-for="a in albums" :key="a.id">
-        <AlbumCard :album="a" />
+      <div class="col-md-3" v-for="e in events" :key="e.id">
+        <EventCard :event="e" />
       </div>
     </div>
-  </div> -->
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div v-for="e in events" :key="e.id" class="col-md-3">
+        <EventCard :event="e" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -61,15 +60,15 @@ export default {
     })
     return {
       // NOTE Filter catagory
-      // events: computed(() => {
-      //   if (!filterCategory.value) {
-      //     return AppState.events
-      //   }
-      //   else {
-      //     return AppState.events.filter(e => e.category == filterCategory.value)
-      //   }
-      // }),
-      // events: computed(() => AppState.events)
+      events: computed(() => {
+        if (!filterCategory.value) {
+          return AppState.events
+        }
+        else {
+          return AppState.events.filter(e => e.category == filterCategory.value)
+        }
+      }),
+      events: computed(() => AppState.events)
     };
   },
   components: { EventCard }
