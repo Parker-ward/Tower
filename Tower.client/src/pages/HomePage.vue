@@ -18,10 +18,11 @@
       </div>
       <div class="col-10 m-auto">
         <div class="bg-primary rounded p-3 d-flex justify-content-around">
-          <button @click="changeFilterCategory('All')" class="btn btn-outline-light">All</button>
-          <button @click="changeFilterCategory('')" class="btn btn-outline-light"></button>
-          <button @click="changeFilterCategory('')" class="btn btn-outline-light"></button>
-          <button @click="changeFilterCategory('Misc')" class="btn btn-outline-light">Misc</button>
+          <button @click="changeFilterType('')" class="btn btn-outline-light">All</button>
+          <button @click="changeFilterType('digital')" class="btn btn-outline-light">digital</button>
+          <button @click="changeFilterType('concert')" class="btn btn-outline-light">Concert</button>
+          <button @click="changeFilterType('sport')" class="btn btn-outline-light">Sports</button>
+          <button @click="changeFilterType('convention')" class="btn btn-outline-light">convention</button>
         </div>
       </div>
       <div class="col-md-3" v-for="e in events" :key="e.id">
@@ -40,13 +41,15 @@
 
 <script>
 import { AppState } from '../AppState.js';
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { eventsService } from '../services/EventsService.js'
 import EventCard from '../components/EventCard.vue';
 import Pop from '../utils/Pop.js';
 
+
 export default {
   setup() {
+    const filterType = ref('')
     async function getAllEvents() {
       try {
         await eventsService.getAllEvents()
@@ -61,14 +64,17 @@ export default {
     return {
       // NOTE Filter catagory
       events: computed(() => {
-        if (!filterCategory.value) {
+        if (!filterType.value) {
           return AppState.events
         }
         else {
-          return AppState.events.filter(e => e.category == filterCategory.value)
+          return AppState.events.filter(e => e.type == filterType.value)
         }
       }),
-      events: computed(() => AppState.events)
+
+      changeFilterType(t) {
+        filterType.value = t
+      }
     };
   },
   components: { EventCard }
