@@ -1,44 +1,79 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img
-        src="https://bcw.blob.core.windows.net/public/img/8600856373152463"
-        alt="CodeWorks Logo"
-        class="rounded-circle"
-      >
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container-fluid bg-dark">
+    <div class="row">
+      <div class="col-md-12 text-center fs-2">
+        <img class="img-cover"
+          src="https://media.istockphoto.com/id/1412242466/photo/rave-party.jpg?b=1&s=170667a&w=0&k=20&c=F4j8vTIkKIx61SUy1puWhW7QYbW0s0v_WREk6CyBYPo="
+          alt="cover image">
+        TOWER.... Where all your events start!
+      </div>
     </div>
   </div>
+  <div class="container-fluid">
+    <div class="row">
+
+      <div v-for="e in events" :key="e.id" class="col-md-3">
+        <EventCard :event="e" />
+      </div>
+
+    </div>
+  </div>
+  <!-- NOTE Filter my catagory -->
+  <!-- <div class="container">
+    <div class="row my-4">
+      <div class="col-12 p-4 mb-3">
+        <h1 class="text-light">Albums</h1>
+      </div>
+      <div class="col-10 m-auto">
+        <div class="bg-primary rounded p-3 d-flex justify-content-around">
+          <button @click="changeFilterCategory('All')" class="btn btn-outline-light">All</button>
+          <button @click="changeFilterCategory('')" class="btn btn-outline-light"></button>
+          <button @click="changeFilterCategory('')" class="btn btn-outline-light"></button>
+          <button @click="changeFilterCategory('Misc')" class="btn btn-outline-light">Misc</button>
+        </div>
+      </div>
+      <div class="col-md-3" v-for="a in albums" :key="a.id">
+        <AlbumCard :album="a" />
+      </div>
+    </div>
+  </div> -->
 </template>
 
 <script>
+import { AppState } from '../AppState.js';
+import { onMounted, computed } from 'vue';
+import { eventsService } from '../services/EventsService.js'
+import EventCard from '../components/EventCard.vue';
+import Pop from '../utils/Pop.js';
+
 export default {
   setup() {
-    return {}
-  }
+    async function getAllEvents() {
+      try {
+        await eventsService.getAllEvents()
+      } catch (error) {
+        Pop.error(error, "getting AllEvents")
+      }
+    }
+
+    onMounted(() => {
+      getAllEvents()
+    })
+    return {
+      // NOTE Filter catagory
+      // events: computed(() => {
+      //   if (!filterCategory.value) {
+      //     return AppState.events
+      //   }
+      //   else {
+      //     return AppState.events.filter(e => e.category == filterCategory.value)
+      //   }
+      // }),
+      // events: computed(() => AppState.events)
+    };
+  },
+  components: { EventCard }
 }
 </script>
 
-<style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-
-  .home-card {
-    width: 50vw;
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>
