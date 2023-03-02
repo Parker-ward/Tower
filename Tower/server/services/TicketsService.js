@@ -29,6 +29,9 @@ class TicketsService {
     if (event.isCanceled) {
       throw new Forbidden('Event has been canceled')
     }
+    if (event.capacity = 0) {
+      throw new Forbidden('NO MORE tickets kevin')
+    }
     event.capacity -= 1
     await event.save()
     const ticket = await dbContext.Ticket.create(ticketData)
