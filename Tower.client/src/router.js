@@ -11,11 +11,11 @@ const routes = [
     name: 'Home',
     component: loadPage('HomePage')
   },
-  // {
-  //   path: '/events/:eventsId',
-  //   name: 'Events',
-  //   component: loadPage('EventsPage')
-  // },
+  {
+    path: '/events/:eventsId',
+    name: 'Events',
+    component: loadPage('EventsPage')
+  },
   {
     path: '/account',
     name: 'Account',

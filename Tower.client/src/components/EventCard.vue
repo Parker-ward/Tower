@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!-- <router-link class="text-light selectable":to="{ name: 'Events', params: { eventsId: event.id } }"> -->
-    <div class="EventCard card my-3">
-      <img :src="event.coverImg" alt="">
-      <div class="card-body text-center">
-        <p><b>{{ event.name }}</b></p>
+    <router-link class="text-light selectable" :to="{ name: 'Events', params: { eventsId: event.id } }">
+      <div class="EventCard card my-3">
+        <img :src="event.coverImg" alt="">
+        <div class="card-body text-center">
+          <p><b>{{ event.name }}</b></p>
+        </div>
       </div>
-    </div>
-    <!-- </router-link> -->
+    </router-link>
   </div>
 </template>
 

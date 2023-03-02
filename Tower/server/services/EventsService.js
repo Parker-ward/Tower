@@ -7,6 +7,9 @@ class EventsService {
     if (event.creatorId.toString() != requestorId) {
       throw new Forbidden('You are NOT allow to cancel this Event you noob')
     }
+    if (event.isCanceled == false) {
+      event.isCanceled = true
+    }
     await event.save()
     return event
   }
