@@ -64,8 +64,10 @@ export default {
       async handleSubmit() {
         try {
           const event = editable.value.id
-          await eventsService.createEvent(editable.value)
+          await eventsService.createEvent(editable.value) // you have to get your id from this line, look at gregslist create a car
+          //FIXME look at gregslist vue component and service
           editable.value = {}
+          // FIXME the event editable will not have an id on it
           if (event?.id) {
             router.push({ name: 'Event', params: { eventId: event.id } })
           }

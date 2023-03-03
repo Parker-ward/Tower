@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 import { basicStringType, defaultSchemaOptions } from "../db/Constants.js"
 export const EventSchema = new Schema({
 
-  name: { type: String, required: true, minLength: 5, maxLength: 200 },
+  name: { type: String, required: true, minLength: 3, maxLength: 200 },
   description: { type: String, required: true },
   coverImg: { type: String, required: true },
   location: { type: String, required: true },

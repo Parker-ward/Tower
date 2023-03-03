@@ -28,7 +28,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-10">
-        <EventCard />
+        <!-- FIXME dont try to re-render the event card first -->
+        <!-- <EventCard /> -->
+        <!-- FIXME render the your tickets to the page, just image and title, don't worry about making the router link work at first just render the data -->
       </div>
     </div>
   </div>
@@ -50,6 +52,7 @@ export default {
       }
     });
     return {
+      // FIXME need to bring in MY tickes
       editable,
       account: computed(() => AppState.account),
       async editAccount() {
