@@ -1,9 +1,8 @@
+import { Profile } from "./Account.js"
 
-export class Ticket {
+export class Ticket extends Profile {
   constructor(data) {
-    this.accountid = data.accountid
-    this.eventid = data.eventid
-    this.profile = data.profile
-    this.event = data.event
+    super(data.profile)
+    this.ticketId = data.id
   }
 }

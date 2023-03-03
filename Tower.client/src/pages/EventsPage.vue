@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-end mb-2">
-        <button v-if="!event.isCanceled" class="btn btn-success">Attend Event</button>
+        <button @click="attendEvent()" v-if="!event.isCanceled" class="btn btn-success">Attend Event</button>
         <button @click="cancelEvent(event.id)" v-if="account.id == event.creatorId && !event.isCanceled"
           class="btn btn-danger">
           Cancel
@@ -86,6 +86,20 @@ export default {
       account: computed(() => AppState.account),
       event: computed(() => AppState.event),
       tickets: computed(() => AppState.tickets),
+
+      async attendEvent() {
+        try {
+          await ticketsService.attendEvent({ eventId: route.params.eventId })
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+
+      async removeTicketToEvent() {
+
+      },
+
 
       async cancelEvent(eventId) {
         try {
