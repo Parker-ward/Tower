@@ -1,6 +1,7 @@
 
 export class Event {
   constructor(data) {
+    this.id = data.id
     this.name = data.name
     this.coverImg = data.coverImg
     this.description = data.description

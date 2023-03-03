@@ -12,8 +12,9 @@
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div>
-      <button>Create Event</button>
+    <div v-if="account.id" class="btn text-success lighten-30 selectable text-uppercase">
+
+      <button data-bs-toggle="modal" data-bs-target="#createForm">Create Event</button>
     </div>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
@@ -31,10 +32,15 @@
 </template>
 
 <script>
+import { AppState } from '../AppState.js';
+import { computed } from 'vue'
 import Login from './Login.vue'
+
 export default {
   setup() {
-    return {}
+    return {
+      account: computed(() => AppState.account)
+    }
   },
   components: { Login }
 }
