@@ -1,4 +1,7 @@
 <template>
+  <!-- <router-link :to="{ name: 'Events', params: { eventId: event.id } }"> -->
+
+
   <form @submit.prevent="handleSubmit">
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
@@ -39,8 +42,8 @@
         {{ editable.id ? 'Save Changes' : 'Submit' }}
       </button>
     </div>
-
   </form>
+  <!-- </router-link> -->
 </template>
 
 
@@ -51,18 +54,21 @@ import { eventsService } from '../services/EventsService.js';
 import Pop from '../utils/Pop.js';
 
 export default {
+  props: {
+    // event: { type: Object, required: true }
+  },
   setup() {
     const editable = ref({})
     return {
       editable,
       async handleSubmit() {
         try {
-          // const event = editable.value.id
+          const event = editable.value.id
           await eventsService.createEvent(editable.value)
           editable.value = {}
-          // if (post?.id) {
-          //   router.push({ name: 'Event', params: { eventId: event.id } })
-          // }
+          if (event?.id) {
+            router.push({ name: 'Event', params: { eventId: event.id } })
+          }
         } catch (error) {
           Pop.error(error, '[Submit Event]')
         }

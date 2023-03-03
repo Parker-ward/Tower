@@ -17,11 +17,15 @@
       <div class="d-flex justify-content-end mb-2">
         <button v-if="!event.isCanceled && account.id && !foundTickets" @click="attendEvent()"
           :disabled="event.isCanceled" class="btn btn-success">Attend Event</button>
-        <!-- <button v-else @click="removeTicketToEvent(foundTickets.ticketId)" class="btn btn-success">Return Ticket</button> -->
+
+        <button v-if="account.id && foundTickets" @click="removeTicketToEvent(foundTickets.ticketId)"
+          class="btn btn-success">Return Ticket</button>
+
         <button @click="cancelEvent(event.id)" v-if="account.id == event.creatorId && !event.isCanceled"
           class="btn btn-danger">
           Cancel
         </button>
+
         <div v-else-if="event.isCanceled" class="bg-danger rounded text-center p-3">
           <i class="mdi mdi-lock"></i>
           <span>

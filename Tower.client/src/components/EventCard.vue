@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <router-link class="text-dark selectable" :to="{ name: 'Events', params: { eventId: event.id } }">
       <div class="EventCard card my-3">
         <img :src="event.coverImg" alt="">
@@ -16,7 +17,7 @@
 import { useRoute } from 'vue-router';
 import { computed } from 'vue'
 import { AppState } from '../AppState.js';
-import { Event } from '../models/Event.js';
+import { Event } from '../models/Event.js'
 import { eventsService } from '../services/EventsService.js';
 import Pop from '../utils/Pop.js';
 export default {
