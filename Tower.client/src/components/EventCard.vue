@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link class="text-light selectable" :to="{ name: 'Events', params: { eventsId: event.id } }">
+    <router-link class="text-dark selectable" :to="{ name: 'Events', params: { eventId: event.id } }">
       <div class="EventCard card my-3">
         <img :src="event.coverImg" alt="">
         <div class="card-body text-center">
@@ -16,7 +16,7 @@
 import { Event } from '../models/Event.js';
 export default {
   props: {
-    event: { type: Event, required: true }
+    event: { type: Object, required: true }
   },
   setup() {
     return {}

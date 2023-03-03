@@ -1,15 +1,79 @@
 <template>
-  <div>
-    hello from the events page
+  <div class="container mt-3 border border-dark" v-if="event">
+    <div class="row justify-content-center">
+      <div class="col-md-12 d-flex justify-content-center">
+        <div class="">
+          <img :src="event.coverImg" alt="" class="img-fluid border border-dark mt-2 mb-2">
+        </div>
+        <div class="ms-2">
+          <p> <b>DESCRIPTION:</b> {{ event.description }}</p>
+          <p><b>LOCATION:</b> {{ event.location }}</p>
+          <p><b>DATE:</b> {{ event.startDate }}</p>
+          <p><b>CAPACITY:</b> {{ event.capacity }}</p>
+          <p></p>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end mb-2">
+        <button class="btn btn-success">Attend Event</button>
+      </div>
+    </div>
+  </div>
 
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <p><b>Who is attending:</b></p>
+        <div v-for="t in tickets" class="col-4">
+          <img class="img-fluid rounded" :src="t.picture" :alt="t.name + ' picture'" :title="t.name">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 
 <script>
+import { watchEffect, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { eventsService } from '../services/EventsService.js';
+import { ticketsService } from '../services/TicketsService.js'
+import Pop from '../utils/Pop.js';
+import { AppState } from '../AppState.js';
+import { router } from '../router.js';
+import { logger } from '../utils/Logger.js';
+
 export default {
   setup() {
-    return {}
+    const route = useRoute()
+    async function getEventById() {
+      try {
+        const eventId = route.params.eventId
+        await eventsService.getEventById(eventId)
+      } catch (error) {
+        Pop.error
+        router.push("/")
+      }
+    }
+    async function getTicketsById() {
+      try {
+        const eventId = route.params.eventId
+        await ticketsService.getTicketsById(eventId)
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error.message)
+      }
+    }
+
+    watchEffect(() => {
+      if (route.params.eventId) {
+        getEventById()
+        getTicketsById()
+      }
+    })
+    return {
+      event: computed(() => AppState.event),
+      tickets: computed(() => AppState.tickets)
+    }
   }
 }
 </script>
