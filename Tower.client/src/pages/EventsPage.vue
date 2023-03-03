@@ -15,9 +15,9 @@
         </div>
       </div>
       <div class="d-flex justify-content-end mb-2">
-        <!-- FIXME also don't show this button if the there no available capacity -->
-        <button v-if="!event.isCanceled && account.id && !foundTickets" @click="attendEvent()"
-          :disabled="event.isCanceled" class="btn btn-success">Attend Event</button>
+
+        <button v-if="!event.isCanceled && account.id && !foundTickets || !event.capacity" @click="attendEvent()"
+          :disabled="event.isCanceled || !event.capacity" class="btn btn-success">Attend Event</button>
 
         <button v-if="account.id && foundTickets" @click="removeTicketToEvent(foundTickets.ticketId)"
           class="btn btn-success">Return Ticket</button>
