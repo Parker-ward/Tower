@@ -14,7 +14,17 @@
         </div>
       </div>
       <div class="d-flex justify-content-end mb-2">
-        <button class="btn btn-success">Attend Event</button>
+        <button v-if="!event.isCanceled" class="btn btn-success">Attend Event</button>
+        <button @click="cancelEvent(event.id)" v-if="account.id == event.creatorId && !event.isCanceled"
+          class="btn btn-danger">
+          Cancel
+        </button>
+        <div v-else-if="event.isCanceled" class="bg-danger rounded text-center p-3">
+          <i class="mdi mdi-lock"></i>
+          <span>
+            Canceled
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -23,6 +33,7 @@
     <div class="row">
       <div class="col-md-12">
         <p><b>Who is attending:</b></p>
+
         <div v-for="t in tickets" class="col-4">
           <img class="img-fluid rounded" :src="t.picture" :alt="t.name + ' picture'" :title="t.name">
         </div>
@@ -33,6 +44,7 @@
 
 
 <script>
+
 import { watchEffect, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { eventsService } from '../services/EventsService.js';
@@ -71,8 +83,17 @@ export default {
       }
     })
     return {
+      account: computed(() => AppState.account),
       event: computed(() => AppState.event),
-      tickets: computed(() => AppState.tickets)
+      tickets: computed(() => AppState.tickets),
+
+      async cancelEvent(eventId) {
+        try {
+          await eventsService.cancelEvent(eventId)
+        } catch (error) {
+          Pop.error(error, 'Cancel Event')
+        }
+      }
     }
   }
 }
