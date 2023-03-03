@@ -6,6 +6,7 @@
           <img :src="event.coverImg" alt="" class="img-fluid border border-dark mt-2 mb-2">
         </div>
         <div class="ms-2">
+          <p><b>NAME:</b> {{ event.name }}</p>
           <p> <b>DESCRIPTION:</b> {{ event.description }}</p>
           <p><b>LOCATION:</b> {{ event.location }}</p>
           <p><b>DATE:</b> {{ event.startDate }}</p>
@@ -14,7 +15,9 @@
         </div>
       </div>
       <div class="d-flex justify-content-end mb-2">
-        <button @click="attendEvent()" v-if="!event.isCanceled" class="btn btn-success">Attend Event</button>
+        <button v-if="!event.isCanceled && account.id && !foundTickets" @click="attendEvent()"
+          :disabled="event.isCanceled" class="btn btn-success">Attend Event</button>
+        <!-- <button v-else @click="removeTicketToEvent(foundTickets.ticketId)" class="btn btn-success">Return Ticket</button> -->
         <button @click="cancelEvent(event.id)" v-if="account.id == event.creatorId && !event.isCanceled"
           class="btn btn-danger">
           Cancel
@@ -86,6 +89,8 @@ export default {
       account: computed(() => AppState.account),
       event: computed(() => AppState.event),
       tickets: computed(() => AppState.tickets),
+      // myEvents: computed(() => AppState.myEvents),
+      foundTickets: computed(() => AppState.tickets.find(t => t.id == AppState.account.id)),
 
       async attendEvent() {
         try {
@@ -96,11 +101,16 @@ export default {
         }
       },
 
-      async removeTicketToEvent() {
+      async removeTicketToEvent(ticketId) {
+        try {
+          if (await Pop.confirm("Are you sure?", "Ok"))
+            await ticketsService.removeTicketToEvent(ticketId)
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
 
       },
-
-
       async cancelEvent(eventId) {
         try {
           await eventsService.cancelEvent(eventId)

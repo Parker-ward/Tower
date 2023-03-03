@@ -4,7 +4,7 @@
     <img class="rounded" :src="account.picture" alt="" />
     <p>{{ account.email }}</p>
   </div>
-  <div class="container-fluid">
+  <!-- <div class="container-fluid">
     <div class="row">
       <div class="col-8 m-auto">
         <form @submit.prevent="editAccount()">
@@ -24,6 +24,13 @@
         </form>
       </div>
     </div>
+  </div> -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10">
+        <EventCard />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,28 +40,31 @@ import { AppState } from '../AppState'
 import { accountService } from '../services/AccountService.js'
 import { logger } from '../utils/Logger.js'
 import Pop from '../utils/Pop.js'
+import EventCard from '../components/EventCard.vue'
 export default {
   setup() {
-    const editable = ref({})
+    const editable = ref({});
     watchEffect(() => {
       if (AppState.account.id) {
-        editable.value = { ...AppState.account }
+        editable.value = { ...AppState.account };
       }
-    })
+    });
     return {
       editable,
       account: computed(() => AppState.account),
       async editAccount() {
         try {
-          const formData = editable.value
-          await accountService.editAccount(formData)
-        } catch (error) {
-          logger.error(error)
-          Pop.error(error.message)
+          const formData = editable.value;
+          await accountService.editAccount(formData);
+        }
+        catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
         }
       }
-    }
-  }
+    };
+  },
+  components: { EventCard }
 }
 </script>
 

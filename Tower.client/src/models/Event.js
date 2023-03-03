@@ -6,7 +6,7 @@ export class Event {
     this.coverImg = data.coverImg
     this.description = data.description
     this.location = data.location
-    this.capacity = data.capacity
+    this.capacity = data.capacity || 0
     this.startDate = new Date(data.startDate).toLocaleDateString('en-Us')
     this.isCanceled = data.isCanceled
     this.creatorId = data.creatorId
