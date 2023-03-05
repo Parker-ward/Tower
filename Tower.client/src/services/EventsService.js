@@ -11,6 +11,7 @@ class EventsService {
     AppState.events = events
   }
 
+
   async getEventById(eventId) {
     AppState.event = null
     const res = await api.get('api/events/' + eventId)

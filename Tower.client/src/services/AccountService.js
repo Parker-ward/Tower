@@ -18,6 +18,11 @@ class AccountService {
     logger.log('edit account', res.data)
     AppState.account = new Account(res.data)
   }
+  async getMytickets() {
+    const res = await api.get('/account/tickets')
+    logger.log('get my tickets', res.data)
+    AppState.myEvents = res.data
+  }
 }
 
 export const accountService = new AccountService()

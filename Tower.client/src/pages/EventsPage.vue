@@ -53,11 +53,13 @@
 <script>
 
 import { watchEffect, computed } from 'vue';
+
 import { useRoute } from 'vue-router';
 import { eventsService } from '../services/EventsService.js';
 import { ticketsService } from '../services/TicketsService.js'
 import Pop from '../utils/Pop.js';
 import { AppState } from '../AppState.js';
+import { commentsService } from '../services/CommentsService.js'
 import { router } from '../router.js';
 import { logger } from '../utils/Logger.js';
 
@@ -82,11 +84,20 @@ export default {
         Pop.error(error.message)
       }
     }
+    async function getCommentsByEventId() {
+      try {
+        const eventId = route.params.eventId
+        await commentsService.getCommentsByEventId(eventId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
 
     watchEffect(() => {
       if (route.params.eventId) {
         getEventById()
         getTicketsById()
+        getCommentsByEventId()
       }
     })
     return {

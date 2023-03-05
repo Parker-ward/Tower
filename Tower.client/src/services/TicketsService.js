@@ -12,6 +12,13 @@ class TicketsService {
     AppState.tickets = res.data.map(t => new Ticket(t))
   }
 
+  // async getMyTickets(eventId) {
+  //   AppState.myEvents = []
+  //   const res = await api.get('api/event/' + eventId + '/ticket')
+  //   logger.log('getting tickets', res.data)
+  //   AppState.myEvents = res.data.map(m => new myEvents(m))
+  // }
+
 
   async attendEvent(eventData) {
     const res = await api.post('api/tickets', eventData)

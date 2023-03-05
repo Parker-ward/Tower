@@ -27,7 +27,16 @@
   </div> -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-12">
+        <h1>My Tickets:</h1>
+      </div>
+      <div v-for="e in myEvents" class="col-md-3">
+
+        <div>
+          <img class="img-fluid rounded ticketImg" :src="e.event.coverImg" :alt="e.event.name + ' picture'"
+            :title="e.event.name">
+          <p>{{ e.event.name }}</p>
+        </div>
         <!-- FIXME dont try to re-render the event card first -->
         <!-- <EventCard /> -->
         <!-- FIXME render the your tickets to the page, just image and title, don't worry about making the router link work at first just render the data -->
@@ -37,21 +46,43 @@
 </template>
 
 <script>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { accountService } from '../services/AccountService.js'
 import { logger } from '../utils/Logger.js'
 import Pop from '../utils/Pop.js'
 import EventCard from '../components/EventCard.vue'
+import { useRoute } from 'vue-router'
 export default {
   setup() {
+    const route = useRoute()
     const editable = ref({});
+
+
     watchEffect(() => {
       if (AppState.account.id) {
         editable.value = { ...AppState.account };
       }
+      // getMytickets()
+
     });
+
+    async function getMytickets() {
+      try {
+        await accountService.getMytickets()
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error.message)
+      }
+    }
+    onMounted(() => {
+      getMytickets()
+    })
+
     return {
+
+      tickets: computed(() => AppState.tickets),
+      myEvents: computed(() => AppState.myEvents),
       // FIXME need to bring in MY tickes
       editable,
       account: computed(() => AppState.account),
@@ -64,7 +95,7 @@ export default {
           logger.error(error);
           Pop.error(error.message);
         }
-      }
+      },
     };
   },
   components: { EventCard }
@@ -72,7 +103,8 @@ export default {
 </script>
 
 <style scoped>
-img {
-  max-width: 100px;
+.ticketImg {
+  height: 300px;
+  width: 300px
 }
 </style>
