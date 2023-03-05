@@ -40,9 +40,21 @@
     <div class="row">
       <div class="col-md-12">
         <p><b>Who is attending:</b></p>
-
         <div v-for="t in tickets" class="col-4">
           <img class="img-fluid rounded" :src="t.picture" :alt="t.name + ' picture'" :title="t.name">
+        </div>
+      </div>
+    </div>
+  </div>
+  <Comments />
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <p><b>Comments:</b></p>
+        <div v-for="c in comments" :key="c.id" class="col-4">
+          <img class="img-fluid rounded" :src="c.picture" :alt="c.name + ' picture'" :title="c.name">
+          {{ c.body }}
         </div>
       </div>
     </div>
@@ -53,7 +65,7 @@
 <script>
 
 import { watchEffect, computed } from 'vue';
-
+import Comments from '../components/Comments.vue'
 import { useRoute } from 'vue-router';
 import { eventsService } from '../services/EventsService.js';
 import { ticketsService } from '../services/TicketsService.js'
@@ -65,76 +77,80 @@ import { logger } from '../utils/Logger.js';
 
 export default {
   setup() {
-    const route = useRoute()
+    const route = useRoute();
     async function getEventById() {
       try {
-        const eventId = route.params.eventId
-        await eventsService.getEventById(eventId)
-      } catch (error) {
-        Pop.error
-        router.push("/")
+        const eventId = route.params.eventId;
+        await eventsService.getEventById(eventId);
+      }
+      catch (error) {
+        Pop.error;
+        router.push("/");
       }
     }
     async function getTicketsById() {
       try {
-        const eventId = route.params.eventId
-        await ticketsService.getTicketsById(eventId)
-      } catch (error) {
-        logger.error(error)
-        Pop.error(error.message)
+        const eventId = route.params.eventId;
+        await ticketsService.getTicketsById(eventId);
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.error(error.message);
       }
     }
     async function getCommentsByEventId() {
       try {
-        const eventId = route.params.eventId
-        await commentsService.getCommentsByEventId(eventId)
-      } catch (error) {
-        Pop.error(error.message)
+        const eventId = route.params.eventId;
+        await commentsService.getCommentsByEventId(eventId);
+      }
+      catch (error) {
+        Pop.error(error.message);
       }
     }
-
     watchEffect(() => {
       if (route.params.eventId) {
-        getEventById()
-        getTicketsById()
-        getCommentsByEventId()
+        getEventById();
+        getTicketsById();
+        getCommentsByEventId();
       }
-    })
+    });
     return {
       account: computed(() => AppState.account),
       event: computed(() => AppState.event),
       tickets: computed(() => AppState.tickets),
+      comments: computed(() => AppState.comments),
       // myEvents: computed(() => AppState.myEvents),
       foundTickets: computed(() => AppState.tickets.find(t => t.id == AppState.account.id)),
-
       async attendEvent() {
         try {
-          await ticketsService.attendEvent({ eventId: route.params.eventId })
-        } catch (error) {
-          logger.error(error)
-          Pop.error(error.message)
+          await ticketsService.attendEvent({ eventId: route.params.eventId });
+        }
+        catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
         }
       },
-
       async removeTicketToEvent(ticketId) {
         try {
           if (await Pop.confirm("Are you sure?", "Ok"))
-            await ticketsService.removeTicketToEvent(ticketId)
-        } catch (error) {
-          logger.error(error)
-          Pop.error(error.message)
+            await ticketsService.removeTicketToEvent(ticketId);
         }
-
+        catch (error) {
+          logger.error(error);
+          Pop.error(error.message);
+        }
       },
       async cancelEvent(eventId) {
         try {
-          await eventsService.cancelEvent(eventId)
-        } catch (error) {
-          Pop.error(error, 'Cancel Event')
+          await eventsService.cancelEvent(eventId);
+        }
+        catch (error) {
+          Pop.error(error, "Cancel Event");
         }
       }
-    }
-  }
+    };
+  },
+  components: { Comments }
 }
 </script>
 
