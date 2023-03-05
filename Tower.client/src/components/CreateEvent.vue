@@ -1,7 +1,4 @@
 <template>
-  <!-- <router-link :to="{ name: 'Events', params: { eventId: event.id } }"> -->
-
-
   <form @submit.prevent="handleSubmit">
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
@@ -38,12 +35,11 @@
       <input required type="text" v-model="editable.type" class="form-control" id="type" placeholder="" name="type">
     </div>
     <div>
-      <button type="submit" class="btn btn-primary">
-        {{ editable.id ? 'Save Changes' : 'Submit' }}
+      <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+        {{ editable.id ? 'Save Changes' : 'Create Event' }}
       </button>
     </div>
   </form>
-  <!-- </router-link> -->
 </template>
 
 
@@ -55,7 +51,7 @@ import Pop from '../utils/Pop.js';
 
 export default {
   props: {
-    // event: { type: Object, required: true }
+    event: { type: Object, required: true }
   },
   setup() {
     const editable = ref({})
@@ -63,13 +59,13 @@ export default {
       editable,
       async handleSubmit() {
         try {
-          const event = editable.value.id
-          await eventsService.createEvent(editable.value) // you have to get your id from this line, look at gregslist create a car
+
+          const event = await eventsService.createEvent(editable.value) // you have to get your id from this line, look at gregslist create a car
           //FIXME look at gregslist vue component and service
           editable.value = {}
           // FIXME the event editable will not have an id on it
           if (event?.id) {
-            router.push({ name: 'Event', params: { eventId: event.id } })
+            router.push({ name: 'Events', params: { eventId: event.id } })
           }
         } catch (error) {
           Pop.error(error, '[Submit Event]')

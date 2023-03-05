@@ -20,9 +20,12 @@ class EventsService {
 
   async createEvent(eventData) {
     const res = await api.post('/api/events', eventData)
-    logger.log('[My Event]', res.data)
-    let createdEvent = new Event(res.data)
-    AppState.events = [createdEvent, ...AppState.events]
+    logger.log("created event", res.data)
+    AppState.events.push(res.data)
+    return res.data
+    // logger.log('[My Event]', res.data)
+    // let createdEvent = new Event(res.data)
+    // AppState.events = [createdEvent, ...AppState.events]
   }
 
   async cancelEvent(eventId) {
