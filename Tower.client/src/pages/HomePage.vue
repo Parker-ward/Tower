@@ -25,9 +25,6 @@
           <button @click="changeFilterType('convention')" class="btn btn-outline-light">Convention</button>
         </div>
       </div>
-      <div class="col-md-3" v-for="e in events" :key="e.id">
-        <EventCard :event="e" />
-      </div>
     </div>
   </div>
   <div class="container-fluid">
