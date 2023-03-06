@@ -60,7 +60,6 @@ export default {
       editable,
       async handleSubmit() {
         try {
-
           const event = await eventsService.createEvent(editable.value) // you have to get your id from this line, look at gregslist create a car
           //FIXME look at gregslist vue component and service
           editable.value = {}

@@ -42,6 +42,7 @@
         <p><b>Who is attending:</b></p>
         <div v-for="t in tickets" class="col-4">
           <img class="img-fluid rounded" :src="t.picture" :alt="t.name + ' picture'" :title="t.name">
+          <p><b>{{ t.name }}</b></p>
         </div>
       </div>
     </div>
