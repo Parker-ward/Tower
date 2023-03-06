@@ -52,9 +52,11 @@
     <div class="row">
       <div class="col-md-12">
         <p><b>Comments:</b></p>
-        <div v-for="c in comments" :key="c.id" class="col-4">
-          <img class="img-fluid rounded" :src="c.picture" :alt="c.name + ' picture'" :title="c.name">
-          {{ c.body }}
+        <div v-for="c in comments" class="col-6">
+          <CommentCard :comment="c" />
+          <img class="img-fluid rounded" :src="c.creator.picture" :alt="c.name + ' picture'" :title="c.name">
+          <button v-if="account.id" @click="removeComment(comment)" class="btn btn-danger">Remove Comment</button>
+
         </div>
       </div>
     </div>
@@ -74,6 +76,7 @@ import { AppState } from '../AppState.js';
 import { commentsService } from '../services/CommentsService.js'
 import { router } from '../router.js';
 import { logger } from '../utils/Logger.js';
+import CommentCard from '../components/CommentCard.vue';
 
 export default {
   setup() {
@@ -130,6 +133,18 @@ export default {
           Pop.error(error.message);
         }
       },
+      async removeComment(commentId) {
+        try {
+          logger.log(commentId)
+          if (await Pop.confirm('Are you sure?'))
+            await commentsService.removeComment(commentId)
+        }
+        catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+
       async removeTicketToEvent(ticketId) {
         try {
           if (await Pop.confirm("Are you sure?", "Ok"))
@@ -150,7 +165,7 @@ export default {
       }
     };
   },
-  components: { Comments }
+  components: { Comments, CommentCard }
 }
 </script>
 
