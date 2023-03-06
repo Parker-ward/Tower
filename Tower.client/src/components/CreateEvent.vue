@@ -53,7 +53,8 @@ export default {
   props: {
     event: { type: Object, required: true }
   },
-  setup() {
+  setup(props) {
+
     const editable = ref({})
     return {
       editable,

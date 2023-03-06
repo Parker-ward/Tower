@@ -12,8 +12,8 @@
 
 <script>
 import { computed } from 'vue';
-import { AppState } from '../AppState.js';
 import { Comment } from '../models/Comment.js';
+import { AppState } from '../AppState.js';
 import { commentsService } from '../services/CommentsService.js';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
@@ -22,7 +22,7 @@ export default {
   props: {
     comment: { type: Comment, required: true }
   },
-  setup() {
+  setup(props) {
     return {
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),

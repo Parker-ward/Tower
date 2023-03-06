@@ -81,7 +81,6 @@ import CommentCard from '../components/CommentCard.vue';
 export default {
   setup() {
     const route = useRoute();
-
     async function getEventById() {
       try {
         const eventId = route.params.eventId;
@@ -119,6 +118,7 @@ export default {
       }
     });
     return {
+
       account: computed(() => AppState.account),
       event: computed(() => AppState.event),
       tickets: computed(() => AppState.tickets),
