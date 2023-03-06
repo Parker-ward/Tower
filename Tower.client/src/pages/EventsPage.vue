@@ -46,16 +46,16 @@
       </div>
     </div>
   </div>
+
   <Comments />
 
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
         <p><b>Comments:</b></p>
-        <div v-for="c in comments" class="col-6">
+        <div v-for="c in comments" class="col-3">
+
           <CommentCard :comment="c" />
-          <img class="img-fluid rounded" :src="c.creator.picture" :alt="c.name + ' picture'" :title="c.name">
-          <button v-if="account.id" @click="removeComment(comment)" class="btn btn-danger">Remove Comment</button>
 
         </div>
       </div>
@@ -81,6 +81,7 @@ import CommentCard from '../components/CommentCard.vue';
 export default {
   setup() {
     const route = useRoute();
+
     async function getEventById() {
       try {
         const eventId = route.params.eventId;
@@ -122,7 +123,6 @@ export default {
       event: computed(() => AppState.event),
       tickets: computed(() => AppState.tickets),
       comments: computed(() => AppState.comments),
-      // myEvents: computed(() => AppState.myEvents),
       foundTickets: computed(() => AppState.tickets.find(t => t.id == AppState.account.id)),
       async attendEvent() {
         try {
@@ -133,17 +133,17 @@ export default {
           Pop.error(error.message);
         }
       },
-      async removeComment(commentId) {
-        try {
-          logger.log(commentId)
-          if (await Pop.confirm('Are you sure?'))
-            await commentsService.removeComment(commentId)
-        }
-        catch (error) {
-          logger.error(error)
-          Pop.error(error.message)
-        }
-      },
+      // async removeComment(commentId) {
+      //   try {
+      //     logger.log(commentId)
+      //     if (await Pop.confirm('Are you sure?'))
+      //       await commentsService.removeComment(commentId)
+      //   }
+      //   catch (error) {
+      //     logger.error(error)
+      //     Pop.error(error.message)
+      //   }
+      // },
 
       async removeTicketToEvent(ticketId) {
         try {
