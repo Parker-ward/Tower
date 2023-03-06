@@ -17,9 +17,6 @@
 import { useRoute } from 'vue-router';
 import { computed } from 'vue'
 import { AppState } from '../AppState.js';
-import { Event } from '../models/Event.js'
-import { eventsService } from '../services/EventsService.js';
-import Pop from '../utils/Pop.js';
 export default {
   props: {
     event: { type: Object, required: true }

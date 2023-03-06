@@ -134,17 +134,6 @@ export default {
           Pop.error(error.message);
         }
       },
-      // async removeComment(commentId) {
-      //   try {
-      //     logger.log(commentId)
-      //     if (await Pop.confirm('Are you sure?'))
-      //       await commentsService.removeComment(commentId)
-      //   }
-      //   catch (error) {
-      //     logger.error(error)
-      //     Pop.error(error.message)
-      //   }
-      // },
 
       async removeTicketToEvent(ticketId) {
         try {
