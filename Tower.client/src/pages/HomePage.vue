@@ -18,11 +18,11 @@
       </div>
       <div class="col-10 m-auto">
         <div class="bg-primary rounded p-3 d-flex justify-content-around">
-          <button @click="changeFilterType('')" class="btn btn-outline-light">All</button>
-          <button @click="changeFilterType('digital')" class="btn btn-outline-light">Digital</button>
-          <button @click="changeFilterType('concert')" class="btn btn-outline-light">Concert</button>
-          <button @click="changeFilterType('sport')" class="btn btn-outline-light">Sports</button>
-          <button @click="changeFilterType('convention')" class="btn btn-outline-light">Convention</button>
+          <button @click="changeFilterType('')" class="btn btn-outline-light text-dark">All</button>
+          <button @click="changeFilterType('digital')" class="btn btn-outline-light text-dark">Digital</button>
+          <button @click="changeFilterType('concert')" class="btn btn-outline-light text-dark">Concert</button>
+          <button @click="changeFilterType('sport')" class="btn btn-outline-light text-dark">Sports</button>
+          <button @click="changeFilterType('convention')" class="btn btn-outline-light text-dark">Convention</button>
         </div>
       </div>
     </div>
