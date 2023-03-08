@@ -9,7 +9,6 @@
       </div>
     </div>
   </div>
-
   <!-- NOTE Filter my catagory -->
   <div class="container">
     <div class="row my-4">
